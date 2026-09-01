@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DB_URL=sqlite:///./apexpay.db
+    volumes:
+      - .:/app
+  web:
+    build: ./apps/web
+    ports:
+      - "3000:3000"

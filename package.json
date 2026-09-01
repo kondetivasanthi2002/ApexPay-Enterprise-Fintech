@@ -1,0 +1,9 @@
+{
+  "name": "apexpay-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "pytest",
+    "build": "echo Building ApexPay monorepo..."
+  }
+}
