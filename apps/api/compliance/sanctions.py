@@ -27,15 +27,18 @@ class SanctionScreeningEngine:
             previous_row = current_row
         return previous_row[-1]
 
-    def screen_entity(self, name: str, threshold_similarity: float = 0.8) -> Dict[str, any]:
+    def screen_entity(self, name: str, threshold_similarity: float = 0.7) -> Dict[str, any]:
         name_clean = name.upper().strip()
         hits = []
+        tokens = set(name_clean.split())
         for target in self.sdn_list:
+            target_tokens = set(target.split())
+            token_overlap = len(tokens.intersection(target_tokens)) / max(len(tokens), 1)
             dist = self.levenshtein_distance(name_clean, target)
             max_len = max(len(name_clean), len(target))
             similarity = 1.0 - (dist / max_len)
-            if similarity >= threshold_similarity:
-                hits.append({"matched_name": target, "similarity": round(similarity, 4)})
+            if similarity >= threshold_similarity or token_overlap >= 0.5:
+                hits.append({"matched_name": target, "similarity": round(max(similarity, token_overlap), 4)})
 
         return {
             "flagged": len(hits) > 0,

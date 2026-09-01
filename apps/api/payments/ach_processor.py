@@ -1,7 +1,7 @@
 class NACHAGenerator:
     @staticmethod
     def validate_routing_number(routing_num: str) -> bool:
-        if len(routing_num) != 9 or not routing_num.isdigit():
+        if len(routing_num) != 9 or not routing_num.isdigit() or routing_num == "000000000":
             return False
         weights = [3, 7, 1, 3, 7, 1, 3, 7]
         checksum = sum(int(routing_num[i]) * weights[i] for i in range(8))
